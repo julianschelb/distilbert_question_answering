@@ -30,7 +30,7 @@ import numpy as np
 # We need a way to convert the strings we get as the input to numerical tokens, that we can give to the neual network. Hence, we take a BertWorkPieceTokenizer (works for DistilBERT too) and create tokens from our words.
 
 # %%
-fit_new_tokenizer = True
+fit_new_tokenizer = False
 
 if fit_new_tokenizer:
     paths = [str(x) for x in Path('data/original').glob('**/*.txt')]
@@ -187,7 +187,7 @@ model.to(device)
 optim = AdamW(model.parameters(), lr=1e-4)
 
 # %%
-epochs = 1
+epochs = 10
 
 for epoch in range(epochs):
     loop = tqdm(loader, leave=True)
@@ -268,8 +268,8 @@ model = torch.load("distilbert.model")
 fill = pipeline("fill-mask", model='distilbert', config=config, tokenizer='distilbert_tokenizer')
 
 # %%
-fill(f'It seems important to tackle the climate {fill.tokenizer.mask_token}.')
-
+response = fill(f'It seems important to tackle the climate {fill.tokenizer.mask_token}.')
+print(response)
 # %%
 
 
